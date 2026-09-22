@@ -168,6 +168,8 @@ kata está en desarrollo activo. El roadmap incluye pestañas ancladas,
 favicons, historial agrupado, importación de favoritos y gestión de cookies y
 caché.
 
+La licencia del proyecto todavía está pendiente de definir.
+
 ---
 
 <div align="center">

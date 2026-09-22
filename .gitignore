@@ -1,0 +1,24 @@
+# Dependencias
+node_modules/
+
+# Build de frontend (Vite)
+dist/
+.vite/
+
+# Build de Rust/Tauri
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Logs y temporales
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*~

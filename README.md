@@ -38,8 +38,9 @@ personalizable.
 ## Capturas
 
 <div align="center">
-  <img src="assets/screenshots/kata-home.png" alt="Página de inicio de kata" width="49%">
+  <img src="assets/screenshots/kata-home.png" alt="Página de inicio de kata con el degradado Brasa" width="49%">
   <img src="assets/screenshots/kata-search.png" alt="Búsqueda web desde kata" width="49%">
+  <img src="assets/screenshots/kata-settings.png" alt="Preferencias con los fondos integrados" width="49%">
   <img src="assets/screenshots/kata-youtube.png" alt="YouTube ejecutándose en kata" width="49%">
 </div>
 
@@ -67,7 +68,7 @@ personalizable.
 - Reloj y fecha en tiempo real.
 - Accesos rápidos a páginas recientes.
 - Notas persistentes con autoguardado.
-- Fondo de inicio personalizado.
+- Fondo de inicio personalizado (tu imagen o uno de los seis degradados integrados).
 - Cinco temas: oscuro, claro, noche, mocha y nord.
 
 ## Stack tecnológico

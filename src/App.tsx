@@ -25,6 +25,7 @@ type Settings = {
     theme: ThemeName;
     userName: string; // nombre mostrado en el saludo del Inicio; "" = sin nombre
     onboarded: boolean; // primer arranque completado (pase de bienvenida)
+    homeGradient: string; // id del degradado integrado del Inicio; "" = ninguno
 };
 type PersistedState = {
     version: number;
@@ -60,6 +61,7 @@ const defaultSettings: Settings = {
     theme: "oscuro",
     userName: "",
     onboarded: false,
+    homeGradient: "",
 };
 
 const THEMES: Array<{ id: ThemeName; name: string }> = [
@@ -81,6 +83,17 @@ const SEARCH_NAMES: Record<Settings["searchEngine"], string> = {
     duckduckgo: "DuckDuckGo",
     bing: "Bing",
 };
+
+// Fondos degradados integrados para el Inicio (además de la foto personal).
+type HomeGradient = { id: string; name: string };
+const HOME_GRADIENTS: HomeGradient[] = [
+    { id: "ember", name: "Brasa" },
+    { id: "dorado", name: "Dorado" },
+    { id: "bosque", name: "Bosque" },
+    { id: "oceano", name: "Océano" },
+    { id: "violeta", name: "Aurora boreal" },
+    { id: "grafito", name: "Grafito" },
+];
 
 // Canales de contacto del creador, mostrados en la bienvenida y en
 // Preferencias (datos reales). kind: "link" abre en una pestaña nueva,
@@ -1495,7 +1508,13 @@ function App() {
     const ss = `${nowTick.getSeconds()}`.padStart(2, "0");
     const noteWords = note ? note.trim().split(/\s+/).filter(Boolean).length : 0;
 
-    const homeViewClass = wallpaper ? "page-view home-view has-wallpaper" : "page-view home-view";
+    const homeGradient = HOME_GRADIENTS.find(g => g.id === settings.homeGradient);
+    // Clase del Inicio: foto > degradado integrado > fondo por defecto (aurora).
+    const homeViewClass = wallpaper
+        ? "page-view home-view has-wallpaper"
+        : homeGradient
+            ? `page-view home-view has-wallpaper home-grad home-grad-${homeGradient.id}`
+            : "page-view home-view";
 
     const homeView = (
         <div className={homeViewClass} style={wallpaper ? {
@@ -1615,7 +1634,17 @@ function App() {
                 <div className="setting-row column">
                     <div className="setting-copy">
                         <strong>Fondo de inicio</strong>
-                        <small>Una imagen propia como fondo del Inicio. Se guarda en tu dispositivo.</small>
+                        <small>Elige un degradado integrado o sube una imagen propia. Se guarda en tu dispositivo.</small>
+                    </div>
+                    <div className="gradient-picker" role="group" aria-label="Fondo degradado del inicio">
+                        <button className={settings.homeGradient === "" ? "active" : ""} onClick={() => setSettings(current => ({ ...current, homeGradient: "" }))} title="Sin degradado: fondo por defecto del tema">
+                            <span className="g-swatch none" />Por defecto
+                        </button>
+                        {HOME_GRADIENTS.map(g => (
+                            <button key={g.id} className={settings.homeGradient === g.id ? "active" : ""} onClick={() => setSettings(current => ({ ...current, homeGradient: g.id }))} title={`Fondo ${g.name}`}>
+                                <span className={`g-swatch ${g.id}`} />{g.name}
+                            </button>
+                        ))}
                     </div>
                     <div className="wallpaper-row">
                         {wallpaper && <div className="wallpaper-preview" style={{ backgroundImage: `url("${wallpaper}")` }} />}
@@ -1821,7 +1850,17 @@ function App() {
                 <div className="setting-row column">
                     <div className="setting-copy">
                         <strong>Fondo de inicio</strong>
-                        <small>Imagen de fondo del Inicio. Se guarda en tu dispositivo junto con los ajustes y permanece al cerrar y reabrir el navegador.</small>
+                        <small>Elige un degradado integrado o usa una imagen propia. Ambos se guardan en tu dispositivo y permanecen al cerrar y reabrir el navegador.</small>
+                    </div>
+                    <div className="gradient-picker" role="group" aria-label="Fondo degradado del inicio">
+                        <button className={settings.homeGradient === "" ? "active" : ""} onClick={() => setSettings(current => ({ ...current, homeGradient: "" }))} title="Sin degradado: fondo por defecto del tema">
+                            <span className="g-swatch none" />Por defecto
+                        </button>
+                        {HOME_GRADIENTS.map(g => (
+                            <button key={g.id} className={settings.homeGradient === g.id ? "active" : ""} onClick={() => setSettings(current => ({ ...current, homeGradient: g.id }))} title={`Fondo ${g.name}`}>
+                                <span className={`g-swatch ${g.id}`} />{g.name}
+                            </button>
+                        ))}
                     </div>
                     <div className="wallpaper-row">
                         {wallpaper && <div className="wallpaper-preview" style={{ backgroundImage: `url("${wallpaper}")` }} />}
